@@ -14,6 +14,7 @@ const PADDLE_WIDTH: float = 100.0
 var forward = Vector2(1,1).normalized()
 
 
+
 func _physics_process(delta: float) -> void:
 	if not is_running:
 		if Input.is_action_just_pressed("click_window"):
