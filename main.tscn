@@ -1,10 +1,15 @@
-[gd_scene load_steps=14 format=3 uid="uid://dn82n7a33pipr"]
+[gd_scene load_steps=19 format=3 uid="uid://dn82n7a33pipr"]
 
 [ext_resource type="Script" path="res://Actors/ball.gd" id="1_mcbp4"]
 [ext_resource type="Script" path="res://main_manager.gd" id="1_yl6xp"]
 [ext_resource type="Script" path="res://Actors/paddle.gd" id="2_puvm5"]
 [ext_resource type="Script" path="res://brick_manager.gd" id="3_05c1r"]
 [ext_resource type="PackedScene" uid="uid://cvokxft0u8nsk" path="res://Actors/brick.tscn" id="3_o7jwn"]
+[ext_resource type="Script" path="res://Actors/brick.gd" id="6_bee5x"]
+[ext_resource type="PackedScene" uid="uid://cotq2kh1se3bd" path="res://boss.tscn" id="6_oj3jo"]
+[ext_resource type="Script" path="res://boss_health.gd" id="8_xpr5b"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_eygbw"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_ddwlf"]
 
@@ -27,16 +32,25 @@ size = Vector2(0.712823, 286.709)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3uumt"]
 size = Vector2(1200, 64)
 
-[node name="Main" type="Node2D" groups=["Screen"]]
-script = ExtResource("1_yl6xp")
+[sub_resource type="Curve2D" id="Curve2D_vbtls"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 250, 150, 0, 0, 0, 0, 930, 150)
+}
+point_count = 2
 
-[node name="Ball" type="CharacterBody2D" parent="." node_paths=PackedStringArray("score_label", "start_label")]
+[node name="Main" type="Node2D" groups=["Screen"]]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(578, 328)
+script = ExtResource("1_yl6xp")
+noise = SubResource("FastNoiseLite_eygbw")
+
+[node name="Ball" type="CharacterBody2D" parent="." node_paths=PackedStringArray("start_label")]
 visible = false
 position = Vector2(604, 437)
 scale = Vector2(2.2, 2.2)
 motion_mode = 1
 script = ExtResource("1_mcbp4")
-score_label = NodePath("../RichTextLabel")
 max_speed = 20.0
 speed_increment = 1.0
 start_label = NodePath("../StartText")
@@ -79,17 +93,17 @@ position = Vector2(9.07824, 6219.02)
 scale = Vector2(1.01475, 40.7792)
 shape = SubResource("RectangleShape2D_ey4vc")
 
+[node name="Brick" parent="." node_paths=PackedStringArray("boss_path", "health_bar", "ball") instance=ExtResource("3_o7jwn")]
+position = Vector2(582, 199)
+script = ExtResource("6_bee5x")
+boss_scene = ExtResource("6_oj3jo")
+boss_path = NodePath("../Path2D")
+health_bar = NodePath("../BossHealth")
+ball = NodePath("../Ball")
+
 [node name="BrickManager" type="Node2D" parent="."]
 script = ExtResource("3_05c1r")
 brick_scene = ExtResource("3_o7jwn")
-
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
-offset_left = 16.0
-offset_right = 392.0
-offset_bottom = 128.0
-scale = Vector2(0.971572, 1)
-theme_override_font_sizes/normal_font_size = 32
-text = "SCORE: 0"
 
 [node name="StartText" type="RichTextLabel" parent="."]
 offset_left = 304.0
@@ -106,3 +120,18 @@ position = Vector2(600, 696)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(-18, -16)
 shape = SubResource("RectangleShape2D_3uumt")
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource("Curve2D_vbtls")
+
+[node name="BossHealth" type="ProgressBar" parent="."]
+modulate = Color(0, 1, 0, 1)
+offset_left = 17.0
+offset_top = 17.0
+offset_right = 315.0
+offset_bottom = 51.0
+value = 100.0
+show_percentage = false
+script = ExtResource("8_xpr5b")
+
+[connection signal="spawn" from="Brick" to="Camera2D" method="_on_brick_spawn"]

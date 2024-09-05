@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://cotq2kh1se3bd"]
+
+[ext_resource type="Script" path="res://boss.gd" id="1_1jlml"]
+[ext_resource type="PackedScene" uid="uid://cvokxft0u8nsk" path="res://Actors/brick.tscn" id="2_rsoc1"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_7engb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mdsej"]
+size = Vector2(400, 200)
+
+[node name="Boss" type="PathFollow2D" groups=["Boss"]]
+loop = false
+script = ExtResource("1_1jlml")
+brick_scene = ExtResource("2_rsoc1")
+
+[node name="AnimatableBody2D" type="AnimatableBody2D" parent="." groups=["Boss"]]
+sync_to_physics = false
+
+[node name="Sprite" type="Sprite2D" parent="AnimatableBody2D"]
+scale = Vector2(400, 200)
+texture = SubResource("CanvasTexture_7engb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatableBody2D"]
+shape = SubResource("RectangleShape2D_mdsej")
+
+[node name="Area2D" type="Area2D" parent="AnimatableBody2D"]

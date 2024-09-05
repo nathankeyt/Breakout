@@ -34,6 +34,7 @@ Bricks=""
 Paddle=""
 GameOver=""
 Screen=""
+Boss=""
 
 [input]
 

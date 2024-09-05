@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+signal hit
+
 @export var score_label: RichTextLabel;
 @export var speed: float = 3.0
 @export var max_speed: float = 10.0
@@ -29,10 +31,13 @@ func _physics_process(delta: float) -> void:
 		forward = forward.bounce(collision.get_normal())
 		speed = clamp(speed + speed_increment, 1, max_speed)
 		
+		if collision.get_collider().is_in_group("Boss"):
+			emit_signal("hit")
+		
 		if collision.get_collider().is_in_group("Bricks"):
 			collision.get_collider().queue_free()
 			current_score += 10
-			score_label.text = "SCORE: " + str(current_score)
+			#score_label.text = "SCORE: " + str(current_score)
 		
 		if collision.get_collider().is_in_group("Paddle"):
 			var paddle_x = collision.get_collider().position.x - (PADDLE_WIDTH / 2.0)
