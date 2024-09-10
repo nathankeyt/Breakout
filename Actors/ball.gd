@@ -8,6 +8,7 @@ signal hit
 @export var speed_increment: float = 0.5
 @export var start_label: RichTextLabel;
 
+var should_restart = false;
 var current_score: int = 0;
 var is_running: bool = false;
 
@@ -20,6 +21,10 @@ var forward = Vector2(1,1).normalized()
 func _physics_process(delta: float) -> void:
 	if not is_running:
 		if Input.is_action_just_pressed("click_window"):
+			if should_restart:
+				get_tree().call_group("Bricks", "queue_free");
+				get_tree().reload_current_scene();
+				return
 			start_label.hide();
 			show();
 			is_running = true;
@@ -53,4 +58,5 @@ func _physics_process(delta: float) -> void:
 			start_label.show()
 			start_label.text = "[center]GAME OVER\n[Click To Replay][/center]"
 			is_running = false
+			should_restart = true;
 			

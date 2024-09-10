@@ -7,7 +7,7 @@ signal health_update;
 
 var brick_arr: Array
 
-@onready var sprite: Sprite2D = $AnimatableBody2D/Sprite
+@onready var sprite: Sprite2D = $AnimatableBody2D/BossBrick
 @onready var collision_shape: CollisionShape2D = $AnimatableBody2D/CollisionShape2D;
 
 var direction: int = 1;
@@ -27,6 +27,9 @@ func tween_curve(input: float):
 	return abs(sin(input * ((5 * PI) / 2)))
 	
 func hit():
+	var tween: Tween = create_tween()
+	tween.tween_property(sprite, "modulate", Color.RED, 0.1)
+	tween.tween_property(sprite, "modulate", Color.WHITE, 0.1)
 	print("health")
 	health -= 10
 	emit_signal("health_update", health)
@@ -50,7 +53,7 @@ func spawn_brick_wall():
 	for i in 7:
 		var new_brick : CharacterBody2D = brick_scene.instantiate()
 		new_brick.position = Vector2(125 + (150 * i), 325)
-		var brick_sprite: Sprite2D = new_brick.get_node("Sprite2D")
+		var brick_sprite: Sprite2D = new_brick.get_node("Brick")
 		var brick_collision: CollisionShape2D = new_brick.get_node("CollisionShape2D")
 		get_tree().root.add_child(new_brick)
 		brick_arr.append(new_brick)

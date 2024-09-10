@@ -2,8 +2,7 @@
 
 [ext_resource type="Script" path="res://boss.gd" id="1_1jlml"]
 [ext_resource type="PackedScene" uid="uid://cvokxft0u8nsk" path="res://Actors/brick.tscn" id="2_rsoc1"]
-
-[sub_resource type="CanvasTexture" id="CanvasTexture_7engb"]
+[ext_resource type="Texture2D" uid="uid://dme4wsdskmh6g" path="res://boss_brick.png" id="3_b0ujb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mdsej"]
 size = Vector2(400, 200)
@@ -16,9 +15,10 @@ brick_scene = ExtResource("2_rsoc1")
 [node name="AnimatableBody2D" type="AnimatableBody2D" parent="." groups=["Boss"]]
 sync_to_physics = false
 
-[node name="Sprite" type="Sprite2D" parent="AnimatableBody2D"]
-scale = Vector2(400, 200)
-texture = SubResource("CanvasTexture_7engb")
+[node name="BossBrick" type="Sprite2D" parent="AnimatableBody2D"]
+position = Vector2(9.17912e-06, -0.5)
+scale = Vector2(6.25, 6.21875)
+texture = ExtResource("3_b0ujb")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatableBody2D"]
 shape = SubResource("RectangleShape2D_mdsej")

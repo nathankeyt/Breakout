@@ -14,6 +14,7 @@ func _notification(what: int) -> void:
 		var boss: PathFollow2D = boss_scene.instantiate()
 		var viewport_size: Vector2 = get_viewport_rect().size
 		boss_path.add_child(boss)
+		health_bar.visible = true
 		health_bar.call("connect_boss", boss)
 		ball.connect("hit", boss.hit)
 		

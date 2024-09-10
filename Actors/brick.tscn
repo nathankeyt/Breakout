@@ -1,15 +1,15 @@
 [gd_scene load_steps=3 format=3 uid="uid://cvokxft0u8nsk"]
 
-[sub_resource type="CanvasTexture" id="CanvasTexture_ygghb"]
+[ext_resource type="Texture2D" uid="uid://ct4rm7ul2g55s" path="res://brick.png" id="1_5l5hp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vpfbu"]
-size = Vector2(100, 40)
+size = Vector2(100, 50)
 
 [node name="Brick" type="CharacterBody2D" groups=["Bricks"]]
 
-[node name="Sprite2D" type="Sprite2D" parent="." groups=["Bricks"]]
-scale = Vector2(100, 40)
-texture = SubResource("CanvasTexture_ygghb")
+[node name="Brick" type="Sprite2D" parent="."]
+scale = Vector2(6.25, 6.25)
+texture = ExtResource("1_5l5hp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_vpfbu")
